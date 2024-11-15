@@ -33,7 +33,7 @@ export class TeamsGatewayAdapter {
     await this.teamRepository.delete(entity);
   }
 
-  async find(params: FindManyOptions<TeamEntity>): Promise<Array<TeamEntity>> {
+  async find(params?: FindManyOptions<TeamEntity>): Promise<Array<TeamEntity>> {
     return await this.teamRepository.find(params);
   }
 

@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { databaseEntities } from './database.entities';
+import { databaseEntities } from './database.index';
 
 export const databaseProviders = [
   {
