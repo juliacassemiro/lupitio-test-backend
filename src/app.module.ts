@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { SoccerPlayersModule } from './soccer-players/soccer-players.module';
-import { SoccerTeamsModule } from './soccer-teams/soccer-teams.module';
 import { DatabaseModule } from './common/database/database.module';
+import { PlayersModule } from './players/players.module';
+import { TeamsModule } from './teams/teams.module';
 
 @Module({
-  imports: [DatabaseModule, SoccerPlayersModule, SoccerTeamsModule],
+  imports: [DatabaseModule, PlayersModule, TeamsModule],
   controllers: [AppController],
   providers: [AppService],
 })

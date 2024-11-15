@@ -1,4 +1,4 @@
-import { SoccerPlayerEntity } from './entities/soccer-player.entity';
-import { SoccerTeamEntity } from './entities/soccer-team.entity';
+import { PlayerEntity } from './entities/player.entity';
+import { TeamEntity } from './entities/team.entity';
 
-export const databaseEntities = [SoccerPlayerEntity, SoccerTeamEntity];
+export const databaseEntities = [PlayerEntity, TeamEntity];
