@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePlayerDto } from './dto/create-player.dto';
-import { UpdatePlayerDto } from './dto/update-player.dto';
+import { CreatePlayerRequestDto } from './dtos/request/create-player-request.dto';
+import { UpdatePlayerRequestDto } from './dtos/request/update-player-request.dto';
 
 @Injectable()
 export class PlayersService {
-  create(createPlayerDto: CreatePlayerDto) {
+  create(createPlayerDto: CreatePlayerRequestDto) {
     return 'This action adds a new player';
   }
 
@@ -16,7 +16,7 @@ export class PlayersService {
     return `This action returns a #${id} player`;
   }
 
-  update(id: number, updatePlayerDto: UpdatePlayerDto) {
+  update(id: number, updatePlayerDto: UpdatePlayerRequestDto) {
     return `This action updates a #${id} player`;
   }
 

@@ -26,7 +26,13 @@ export class PlayerEntity {
   @Column({ type: 'integer' })
   age: number;
 
-  @ManyToOne(() => TeamEntity, (team) => team.id)
+  @Column({ type: 'blob' })
+  photo: Buffer;
+
+  @ManyToOne(() => TeamEntity, (team) => team.id, {
+    eager: true,
+    onDelete: 'SET NULL',
+  })
   @JoinColumn({ name: 'team_id' })
   team: TeamEntity;
 }

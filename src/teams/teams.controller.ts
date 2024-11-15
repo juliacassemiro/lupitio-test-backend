@@ -7,8 +7,8 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { CreateTeamDto } from './dto/create-team.dto';
-import { UpdateTeamDto } from './dto/update-team.dto';
+import { CreateTeamRequestDto } from './dtos/request/create-team-request.dto';
+import { UpdateTeamRequestDto } from './dtos/request/update-team-request.dto';
 import { TeamsService } from './teams.service';
 
 @Controller('teams')
@@ -16,8 +16,8 @@ export class TeamsController {
   constructor(private readonly teamsService: TeamsService) {}
 
   @Post()
-  create(@Body() createTeamDto: CreateTeamDto) {
-    return this.teamsService.create(createTeamDto);
+  create(@Body() createTeamRequestDto: CreateTeamRequestDto) {
+    return this.teamsService.create(createTeamRequestDto);
   }
 
   @Get()
@@ -31,8 +31,11 @@ export class TeamsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTeamDto: UpdateTeamDto) {
-    return this.teamsService.update(+id, updateTeamDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateTeamRequestDto: UpdateTeamRequestDto,
+  ) {
+    return this.teamsService.update(+id, updateTeamRequestDto);
   }
 
   @Delete(':id')
