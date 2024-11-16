@@ -2,9 +2,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { PlayerEntity } from './player.entity';
 
 @Entity({ name: 'teams' })
 export class TeamEntity {
@@ -19,4 +21,7 @@ export class TeamEntity {
 
   @Column({ type: 'varchar', length: 50 })
   name: string;
+
+  @OneToMany(() => PlayerEntity, (player) => player.team)
+  players: PlayerEntity[];
 }
