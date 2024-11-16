@@ -9,7 +9,7 @@ export class DeleteTeamUseCase {
     const team = await this.teamsGatewayAdapter.findOne({ where: { id } });
     if (!team) throw new NotFoundException('Time não encontrado');
 
-    await this.teamsGatewayAdapter.delete(team);
+    await this.teamsGatewayAdapter.delete(id);
 
     return { message: 'Time excluído com sucesso' };
   }

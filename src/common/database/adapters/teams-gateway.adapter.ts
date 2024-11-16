@@ -29,8 +29,8 @@ export class TeamsGatewayAdapter {
     return await this.teamRepository.findOne({ where: { id } });
   }
 
-  async delete(entity: TeamEntity): Promise<void> {
-    await this.teamRepository.delete(entity);
+  async delete(id: number): Promise<void> {
+    await this.teamRepository.delete(id);
   }
 
   async find(params?: FindManyOptions<TeamEntity>): Promise<Array<TeamEntity>> {

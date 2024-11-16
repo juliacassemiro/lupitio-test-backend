@@ -56,7 +56,7 @@ export class TeamsController {
 
   @Delete(':id')
   @ApiOperation({ summary: 'Excluir um time' })
-  async remove(@Param('id', new ParseIntPipe()) id: number) {
+  async delete(@Param('id', new ParseIntPipe()) id: number) {
     return await this.deleteTeamUseCase.execute(id);
   }
 }
