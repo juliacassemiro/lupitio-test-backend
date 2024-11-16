@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TeamEntity } from 'src/common/database/entities/team.entity';
+import { PaginatedRequestDto } from 'src/shared/dtos/request/paginated-request.dto';
 import {
   DeepPartial,
   FindManyOptions,
@@ -39,5 +40,20 @@ export class TeamsGatewayAdapter {
 
   async findOne(params: FindOneOptions<TeamEntity>): Promise<TeamEntity> {
     return await this.teamRepository.findOne(params);
+  }
+
+  async findPaginated(dto: PaginatedRequestDto) {
+    const [data, total] = await this.teamRepository.findAndCount({
+      skip: (dto.page - 1) * dto.limit,
+      take: dto.limit,
+    });
+
+    return {
+      data,
+      total,
+      page: dto.page,
+      limit: dto.limit,
+      totalPages: Math.ceil(total / dto.limit),
+    };
   }
 }
