@@ -10,12 +10,12 @@ export class CreatePlayerUseCase {
     private readonly teamsGatewayAdapter: TeamsGatewayAdapter,
   ) {}
 
-  async execute(dto: CreatePlayerRequestDto) {
+  async execute(dto: CreatePlayerRequestDto, photo: Buffer) {
     const { teamId, ...rest } = dto;
 
     const team = await this.findTeam(teamId);
 
-    return await this.playersGatewayAdapter.create({ ...rest, team });
+    return await this.playersGatewayAdapter.create({ ...rest, team, photo });
   }
 
   private async findTeam(teamId: number) {

@@ -10,7 +10,7 @@ export class UpdatePlayerUseCase {
     private readonly teamsGatewayAdapter: TeamsGatewayAdapter,
   ) {}
 
-  async execute(id: number, dto: UpdatePlayerRequestDto) {
+  async execute(id: number, dto: UpdatePlayerRequestDto, photo?: Buffer) {
     const player = await this.findPlayer(id);
 
     const { teamId, ...rest } = dto;
@@ -19,6 +19,7 @@ export class UpdatePlayerUseCase {
     return await this.playersGatewayAdapter.update(player.id, {
       ...rest,
       team,
+      photo,
     });
   }
 

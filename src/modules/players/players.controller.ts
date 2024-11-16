@@ -7,8 +7,12 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
-import { ApiOperation } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBody, ApiConsumes, ApiOperation } from '@nestjs/swagger';
+import * as multer from 'multer';
 import { CreatePlayerRequestDto } from './dtos/request/create-player-request.dto';
 import { UpdatePlayerRequestDto } from './dtos/request/update-player-request.dto';
 import { CreatePlayerUseCase } from './use-cases/create-player.use-case';
@@ -29,8 +33,29 @@ export class PlayersController {
 
   @Post()
   @ApiOperation({ summary: 'Criar um jogador' })
-  async create(@Body() dto: CreatePlayerRequestDto) {
-    return this.createPlayerUseCase.execute(dto);
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: { type: 'string', format: 'binary' },
+        name: { type: 'string' },
+        age: { type: 'number' },
+        teamId: { type: 'number' },
+      },
+      required: ['file', 'name', 'age', 'teamId'],
+    },
+  })
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: multer.memoryStorage(),
+    }),
+  )
+  async create(
+    @Body() dto: CreatePlayerRequestDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.createPlayerUseCase.execute(dto, file.buffer);
   }
 
   @Get()
@@ -46,12 +71,31 @@ export class PlayersController {
   }
 
   @Patch(':id')
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: { type: 'string', format: 'binary' },
+        name: { type: 'string' },
+        age: { type: 'number' },
+        teamId: { type: 'number' },
+      },
+      required: [],
+    },
+  })
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: multer.memoryStorage(),
+    }),
+  )
   @ApiOperation({ summary: 'Editar um jogador' })
   async update(
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: UpdatePlayerRequestDto,
+    @UploadedFile() file?: Express.Multer.File,
   ) {
-    return this.updatePlayerUseCase.execute(id, dto);
+    return this.updatePlayerUseCase.execute(id, dto, file?.buffer);
   }
 
   @Delete(':id')
