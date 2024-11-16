@@ -29,12 +29,12 @@ export class PlayersGatewayAdapter {
     return await this.playerRepository.findOne({ where: { id } });
   }
 
-  async delete(entity: PlayerEntity): Promise<void> {
-    await this.playerRepository.delete(entity);
+  async delete(id: number): Promise<void> {
+    await this.playerRepository.delete(id);
   }
 
   async find(
-    params: FindManyOptions<PlayerEntity>,
+    params?: FindManyOptions<PlayerEntity>,
   ): Promise<Array<PlayerEntity>> {
     return await this.playerRepository.find(params);
   }

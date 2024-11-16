@@ -4,42 +4,59 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
+import { ApiOperation } from '@nestjs/swagger';
 import { CreatePlayerRequestDto } from './dtos/request/create-player-request.dto';
 import { UpdatePlayerRequestDto } from './dtos/request/update-player-request.dto';
-import { PlayersService } from './players.service';
+import { CreatePlayerUseCase } from './use-cases/create-player.use-case';
+import { DeletePlayerUseCase } from './use-cases/delete-player.use-case';
+import { GetAllPlayerUseCase } from './use-cases/get-all-players.use-case';
+import { GetOnePlayerUseCase } from './use-cases/get-one-player.use-case';
+import { UpdatePlayerUseCase } from './use-cases/update-player.use-case';
 
 @Controller('players')
 export class PlayersController {
-  constructor(private readonly playersService: PlayersService) {}
+  constructor(
+    private readonly createPlayerUseCase: CreatePlayerUseCase,
+    private readonly updatePlayerUseCase: UpdatePlayerUseCase,
+    private readonly getOnePlayerUseCase: GetOnePlayerUseCase,
+    private readonly getAllPlayerUseCase: GetAllPlayerUseCase,
+    private readonly deletePlayerUseCase: DeletePlayerUseCase,
+  ) {}
 
   @Post()
-  create(@Body() createPlayerDto: CreatePlayerRequestDto) {
-    return this.playersService.create(createPlayerDto);
+  @ApiOperation({ summary: 'Criar um jogador' })
+  async create(@Body() dto: CreatePlayerRequestDto) {
+    return this.createPlayerUseCase.execute(dto);
   }
 
   @Get()
-  findAll() {
-    return this.playersService.findAll();
+  @ApiOperation({ summary: 'Listar todos os jogadores' })
+  async getAll() {
+    return this.getAllPlayerUseCase.execute();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.playersService.findOne(+id);
+  @ApiOperation({ summary: 'Exibir um jogador' })
+  async getOne(@Param('id', new ParseIntPipe()) id: number) {
+    return this.getOnePlayerUseCase.execute(id);
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updatePlayerDto: UpdatePlayerRequestDto,
+  @ApiOperation({ summary: 'Editar um jogador' })
+  async update(
+    @Param('id', new ParseIntPipe()) id: number,
+    @Body() dto: UpdatePlayerRequestDto,
   ) {
-    return this.playersService.update(+id, updatePlayerDto);
+    return this.updatePlayerUseCase.execute(id, dto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.playersService.remove(+id);
+  @ApiOperation({ summary: 'Excluir um jogador' })
+  async delete(@Param('id', new ParseIntPipe()) id: number) {
+    return this.deletePlayerUseCase.execute(id);
   }
 }
