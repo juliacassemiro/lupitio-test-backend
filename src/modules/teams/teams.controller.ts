@@ -8,8 +8,11 @@ import {
   Patch,
   Post,
   UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiOperation } from '@nestjs/swagger';
+import * as multer from 'multer';
 import { CreateTeamRequestDto } from './dtos/request/create-team-request.dto';
 import { UpdateTeamRequestDto } from './dtos/request/update-team-request.dto';
 import { CreateTeamUseCase } from './use-cases/create-team.use-case';
@@ -41,6 +44,11 @@ export class TeamsController {
       required: ['file', 'name', 'adress'],
     },
   })
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: multer.memoryStorage(),
+    }),
+  )
   async create(
     @Body() dto: CreateTeamRequestDto,
     @UploadedFile() file: Express.Multer.File,
@@ -77,6 +85,11 @@ export class TeamsController {
       required: [],
     },
   })
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: multer.memoryStorage(),
+    }),
+  )
   async update(
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: UpdateTeamRequestDto,
