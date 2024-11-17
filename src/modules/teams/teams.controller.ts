@@ -11,7 +11,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiOperation } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiOperation } from '@nestjs/swagger';
 import * as multer from 'multer';
 import { CreateTeamRequestDto } from './dtos/request/create-team-request.dto';
 import { UpdateTeamRequestDto } from './dtos/request/update-team-request.dto';
@@ -33,6 +33,7 @@ export class TeamsController {
 
   @Post()
   @ApiOperation({ summary: 'Criar um time' })
+  @ApiConsumes('multipart/form-data')
   @ApiBody({
     schema: {
       type: 'object',
@@ -74,6 +75,7 @@ export class TeamsController {
 
   @Patch(':id')
   @ApiOperation({ summary: 'Editar um time' })
+  @ApiConsumes('multipart/form-data')
   @ApiBody({
     schema: {
       type: 'object',
