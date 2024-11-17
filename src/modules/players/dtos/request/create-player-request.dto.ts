@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
   IsDefined,
+  IsInt,
   IsNotEmpty,
-  IsNumber,
   IsString,
   MaxLength,
 } from 'class-validator';
@@ -18,12 +19,14 @@ export class CreatePlayerRequestDto {
   @ApiProperty()
   @IsDefined()
   @IsNotEmpty()
-  @IsNumber({ maxDecimalPlaces: 0 })
+  @IsInt()
+  @Type(() => Number)
   age: number;
 
   @ApiProperty()
   @IsDefined()
   @IsNotEmpty()
-  @IsNumber({ maxDecimalPlaces: 0 })
+  @IsInt()
+  @Type(() => Number)
   teamId: number;
 }

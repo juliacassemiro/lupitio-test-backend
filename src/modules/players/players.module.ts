@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from 'src/common/database/database.module';
+import { FileModule } from 'src/common/file/file.module';
 import { PlayersController } from './players.controller';
 import { CreatePlayerUseCase } from './use-cases/create-player.use-case';
 import { DeletePlayerUseCase } from './use-cases/delete-player.use-case';
@@ -8,7 +9,7 @@ import { GetOnePlayerUseCase } from './use-cases/get-one-player.use-case';
 import { UpdatePlayerUseCase } from './use-cases/update-player.use-case';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, FileModule],
   controllers: [PlayersController],
   providers: [
     CreatePlayerUseCase,

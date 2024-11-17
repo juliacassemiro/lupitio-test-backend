@@ -26,8 +26,8 @@ export class PlayerEntity {
   @Column({ type: 'integer' })
   age: number;
 
-  @Column({ type: 'blob' })
-  photo: Buffer;
+  @Column({ type: 'varchar', length: 255 })
+  photo: string;
 
   @ManyToOne(() => TeamEntity, (team) => team.id, {
     eager: true,

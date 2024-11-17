@@ -55,7 +55,7 @@ export class PlayersController {
     @Body() dto: CreatePlayerRequestDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    return this.createPlayerUseCase.execute(dto, file.buffer);
+    return this.createPlayerUseCase.execute(dto, file.buffer, file.mimetype);
   }
 
   @Get()
@@ -95,7 +95,12 @@ export class PlayersController {
     @Body() dto: UpdatePlayerRequestDto,
     @UploadedFile() file?: Express.Multer.File,
   ) {
-    return this.updatePlayerUseCase.execute(id, dto, file?.buffer);
+    return this.updatePlayerUseCase.execute(
+      id,
+      dto,
+      file?.buffer,
+      file?.mimetype,
+    );
   }
 
   @Delete(':id')
