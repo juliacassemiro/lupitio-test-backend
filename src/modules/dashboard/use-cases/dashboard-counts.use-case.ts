@@ -19,7 +19,7 @@ export class DashboardCountsUseCase {
     return {
       teams: teams.length,
       players: players.length,
-      agesAvg: agesAvg,
+      playersAgesAvg: agesAvg,
     };
   }
 }

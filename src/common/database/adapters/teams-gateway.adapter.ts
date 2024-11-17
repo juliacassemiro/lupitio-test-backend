@@ -42,8 +42,12 @@ export class TeamsGatewayAdapter {
     return await this.teamRepository.findOne(params);
   }
 
-  async findPaginated(dto: PaginatedRequestDto) {
+  async findPaginated(
+    dto: PaginatedRequestDto,
+    params?: FindManyOptions<TeamEntity>,
+  ) {
     const [data, total] = await this.teamRepository.findAndCount({
+      ...params,
       skip: (dto.page - 1) * dto.limit,
       take: dto.limit,
     });
