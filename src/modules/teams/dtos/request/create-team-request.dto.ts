@@ -13,6 +13,6 @@ export class CreateTeamRequestDto {
   @IsDefined()
   @IsNotEmpty()
   @IsString()
-  @MaxLength(50)
+  @MaxLength(255)
   adress: string;
 }
