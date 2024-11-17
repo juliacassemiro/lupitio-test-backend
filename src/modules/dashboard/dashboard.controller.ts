@@ -15,17 +15,17 @@ export class DashboardController {
     private readonly dashboardGetTeamsUseCase: DashboardGetTeamsUseCase,
   ) {}
 
-  @Get('counts')
+  @Get('kpis')
   @ApiOperation({
-    summary: 'Contagem de times, jogadores e idade média dos jogadores',
+    summary: 'Quantidade de times, jogadores e idade média dos jogadores',
   })
-  async counts() {
+  async kpis() {
     return await this.dashboardCountsUseCase.execute();
   }
 
   @Get('players-per-team')
   @ApiOperation({
-    summary: 'Contagem de jogadores por time',
+    summary: 'Quantidade de jogadores por time',
   })
   async playersPerTeam() {
     return await this.dashboardPlayersPerTeamUseCase.execute();
