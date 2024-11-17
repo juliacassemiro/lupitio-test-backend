@@ -22,6 +22,12 @@ export class TeamEntity {
   @Column({ type: 'varchar', length: 50 })
   name: string;
 
+  @Column({ type: 'varchar', length: 255 })
+  logo: string;
+
+  @Column({ type: 'varchar', length: 255 })
+  adress: string;
+
   @OneToMany(() => PlayerEntity, (player) => player.team)
   players: PlayerEntity[];
 }

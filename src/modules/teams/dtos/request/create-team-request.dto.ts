@@ -8,4 +8,11 @@ export class CreateTeamRequestDto {
   @IsString()
   @MaxLength(50)
   name: string;
+
+  @ApiProperty()
+  @IsDefined()
+  @IsNotEmpty()
+  @IsString()
+  @MaxLength(50)
+  adress: string;
 }

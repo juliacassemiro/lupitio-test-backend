@@ -7,8 +7,9 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UploadedFile,
 } from '@nestjs/common';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiBody, ApiOperation } from '@nestjs/swagger';
 import { CreateTeamRequestDto } from './dtos/request/create-team-request.dto';
 import { UpdateTeamRequestDto } from './dtos/request/update-team-request.dto';
 import { CreateTeamUseCase } from './use-cases/create-team.use-case';
@@ -29,8 +30,26 @@ export class TeamsController {
 
   @Post()
   @ApiOperation({ summary: 'Criar um time' })
-  async create(@Body() dto: CreateTeamRequestDto) {
-    return await this.createTeamUseCase.execute(dto);
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: { type: 'string', format: 'binary' },
+        name: { type: 'string' },
+        adress: { type: 'string' },
+      },
+      required: ['file', 'name', 'adress'],
+    },
+  })
+  async create(
+    @Body() dto: CreateTeamRequestDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return await this.createTeamUseCase.execute(
+      dto,
+      file.buffer,
+      file.mimetype,
+    );
   }
 
   @Get()
@@ -47,11 +66,28 @@ export class TeamsController {
 
   @Patch(':id')
   @ApiOperation({ summary: 'Editar um time' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: { type: 'string', format: 'binary' },
+        name: { type: 'string' },
+        adress: { type: 'string' },
+      },
+      required: [],
+    },
+  })
   async update(
     @Param('id', new ParseIntPipe()) id: number,
     @Body() dto: UpdateTeamRequestDto,
+    @UploadedFile() file: Express.Multer.File,
   ) {
-    return await this.updateTeamUseCase.execute(id, dto);
+    return await this.updateTeamUseCase.execute(
+      id,
+      dto,
+      file.buffer,
+      file.mimetype,
+    );
   }
 
   @Delete(':id')
