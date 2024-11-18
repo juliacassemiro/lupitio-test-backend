@@ -100,8 +100,8 @@ export class TeamsController {
     return await this.updateTeamUseCase.execute(
       id,
       dto,
-      file.buffer,
-      file.mimetype,
+      file?.buffer,
+      file?.mimetype,
     );
   }
 
